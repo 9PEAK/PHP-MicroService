@@ -1,0 +1,23 @@
+{
+    "name": "eastown/sd-api",
+    "description": "Api conponet for Soffee Design .",
+    "license": "MIT",
+    "keywords": [],
+    "authors": [
+        {
+            "name": "Kane Young / 杨祥凯",
+            "email": "52653784@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">= 5.4",
+        "9peak/php-token": "dev-master",
+        "php-curl-class/php-curl-class": "^7.3"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "SD\\": "src"
+        }
+    }
+}
