@@ -22,7 +22,7 @@ trait Token {
 
 
 
-	static function validate ($credentials, $token, $exp)
+	static function login ($credentials, $token, $exp)
 	{
 		$obj = new TimeToken();
 		return $obj->validate(
