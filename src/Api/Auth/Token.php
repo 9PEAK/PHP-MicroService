@@ -5,10 +5,16 @@ use Peak\TimeToken;
 
 trait Token {
 
-
 	static function attempt ($credentials)
 	{
 		$obj = new TimeToken();
+		return [
+			'id' => $credentials['id'],
+			'token' => $obj->makeToken([
+				'app_id' => $credentials['id'],
+				'app_key' => $credentials['key'],
+			])
+		];
 		return $obj->outputString(
 			[
 				'id' => $credentials['id'],
