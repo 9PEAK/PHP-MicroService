@@ -88,13 +88,13 @@ class MicroService {
 			$url = static::API_URL.$func.self::set_url_query($query);
 
 			#2 设置参数
-			$param = self::$func($param);
+			$param = static::$func($param);
 
 			#3 设置验证数据
 			$http->setHeaders(self::attempt());
 
 			#4 发送请求
-			$http->post($url, $param);
+			$http->$method($url, $param);
 
 			#5 获取返回值
 
