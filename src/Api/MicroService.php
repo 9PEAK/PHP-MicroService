@@ -103,4 +103,10 @@ class MicroService {
 		}
 	}
 
+
+	protected static function test(array $param)
+	{
+		return $param;
+	}
+
 }
