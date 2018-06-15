@@ -71,7 +71,7 @@ class MicroService {
 		$url = static::API_URL.$func;
 
 		#2 设置参数
-		self::$func($param);
+		$param = self::$func($param);
 
 		try {
 			#3 设置验证数据
