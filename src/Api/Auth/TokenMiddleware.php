@@ -5,7 +5,7 @@ abstract class TokenMiddleware {
 
 
 	protected static $con = [
-		'APP_ID', 'APP_KEY', 'APP_EXP'
+		'API_ID', 'API_KEY', 'API_EXP'
 	];
 
 
@@ -23,15 +23,15 @@ abstract class TokenMiddleware {
 
 	protected static function check ($req)
 	{
-		if ( $req->get('id')==static::APP_ID ) {
+		if ( $req->get('id')==static::API_ID ) {
 			return Token::login(
 				[
-					'id' => static::APP_ID,
-					'key' => static::APP_KEY,
+					'id' => static::API_ID,
+					'key' => static::API_KEY,
 					'timestamp' => $req->get('timestamp'),
 				],
 				$req->get('token'),
-				static::APP_EXP
+				static::API_EXP
 			);
 		}
 	}
