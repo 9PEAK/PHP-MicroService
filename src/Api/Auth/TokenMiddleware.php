@@ -24,7 +24,7 @@ abstract class TokenMiddleware {
 	protected static function check ($req)
 	{
 		if ( $req->get('id')==static::APP_ID ) {
-			return Token::validate(
+			return Token::login(
 				[
 					'id' => static::APP_ID,
 					'key' => static::APP_KEY,
