@@ -88,6 +88,7 @@ class MicroService {
 					'method' => $method,
 					'param' => $param,
 					'error' => 'Error: ' . $http->errorCode . ': ' . $http->errorMessage,
+					'response' => json_decode($http->response, 1)
 				]));
 			}
 
