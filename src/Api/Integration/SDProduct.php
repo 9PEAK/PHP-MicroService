@@ -10,10 +10,9 @@ class SDProduct extends \SD\Api\MicroService {
 
 	protected static function searchProduct (array &$param)
 	{
-		$param = [
+		return [
 
 		];
-		return $param;
 	}
 
 

@@ -74,7 +74,7 @@ class MicroService {
 		self::$func($param);
 
 		try {
-			#3 设置头部信息
+			#3 设置验证数据
 			$http->setHeaders(self::attempt());
 
 			#4 发送请求

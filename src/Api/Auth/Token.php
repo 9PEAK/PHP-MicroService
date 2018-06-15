@@ -10,20 +10,12 @@ trait Token {
 		$obj = new TimeToken();
 		return [
 			'id' => $credentials['id'],
-			'token' => $obj->makeToken([
+			'token' => $obj->sign([
 				'app_id' => $credentials['id'],
 				'app_key' => $credentials['key'],
-			])
+			]),
+			'timestamp' => $obj->time()
 		];
-		return $obj->outputString(
-			[
-				'id' => $credentials['id'],
-				'token' => $obj->makeToken([
-					'app_id' => $credentials['id'],
-					'app_key' => $credentials['key'],
-				])
-			]
-		);
 	}
 
 
