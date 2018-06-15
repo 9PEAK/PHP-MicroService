@@ -23,14 +23,14 @@ abstract class TokenMiddleware {
 
 	protected static function check ($req)
 	{
-		if ( $req->get('id')==static::API_ID ) {
+		if ( $req->header('id')==static::API_ID ) {
 			return Token::login(
 				[
 					'id' => static::API_ID,
 					'key' => static::API_KEY,
-					'timestamp' => $req->get('timestamp'),
+					'timestamp' => $req->header('timestamp'),
 				],
-				$req->get('token'),
+				$req->header('token'),
 				static::API_EXP
 			);
 		}

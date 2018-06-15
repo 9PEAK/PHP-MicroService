@@ -3,7 +3,6 @@ namespace SD\Api;
 
 class MicroService {
 
-
 	protected static $http;
 	protected static $auth;
 
@@ -48,7 +47,7 @@ class MicroService {
 	{
 		$res = self::$http->response;
 		if ($key) {
-			$res = json_decode($res, 1);
+			$res = is_string($res) ? json_decode($res, 1) : (array)$res ;
 			$key = explode('.', $key);
 			foreach ($key as $k) {
 				$res = @$res[$k];
@@ -58,22 +57,39 @@ class MicroService {
 	}
 
 
+	private static function set_url_query ($query)
+	{
+		if (!$query) return '';
+
+		if (is_array($query)) {
+			foreach ($query as $k=>&$v) {
+				$v = $k.'='.$v;
+			}
+			return '?'.join('&', $query);
+		} else {
+			$query = trim($query);
+			return strpos($query, '?')===0 ? $query : '?'.$query;
+		}
+	}
+
+
 	/**
 	 * 跨应用标准化请求业务
 	 * @param $func method name of request
 	 * @param $param param of request
 	 * */
-	final public function handle ($func, array $param, $method='post')
+	final public function handle ($func, array $param, $query=null, $method='post')
 	{
 		$http =& self::$http;
 
-		#1 设置url
-		$url = static::API_URL.$func;
-
-		#2 设置参数
-		$param = self::$func($param);
-
 		try {
+
+			#1 设置url
+			$url = static::API_URL.$func.self::set_url_query($query);
+
+			#2 设置参数
+			$param = self::$func($param);
+
 			#3 设置验证数据
 			$http->setHeaders(self::attempt());
 
@@ -88,7 +104,7 @@ class MicroService {
 					'method' => $method,
 					'param' => $param,
 					'error' => 'Error: ' . $http->errorCode . ': ' . $http->errorMessage,
-					'response' => json_decode($http->response, 1)
+					'response' => is_string($http->response) ? json_decode($http->response, 1) : (array)$http->response
 				]));
 			}
 
@@ -101,6 +117,7 @@ class MicroService {
 		} catch ( \Exception $e) {
 			echo 'ERROR: '.$e->getMessage();
 		}
+
 	}
 
 
