@@ -68,7 +68,7 @@ class MicroService {
 		$http =& self::$http;
 
 		#1 设置url
-		$url = static::APP_URL.$func;
+		$url = static::API_URL.$func;
 
 		#2 设置参数
 		self::$func($param);
