@@ -10,10 +10,18 @@ class MicroService {
 	/**
 	 * @param $auth array , key is the class name of authenticate method, val is certificate
 	 * */
-	function __construct(array $auth)
+	function __construct(array $auth, array $config=[])
 	{
 		self::$auth = $auth;
+
+		foreach ($config as $key=>$val) {
+			if (property_exists(static::class, $key) ) {
+				static::$$key = $val;
+			}
+		}
+
 		self::$http = new \Curl\Curl();
+
 	}
 
 
@@ -85,7 +93,7 @@ class MicroService {
 		try {
 
 			#1 设置url
-			$url = static::API_URL.$func.self::set_url_query($query);
+			$url = static::$api_url.$func.self::set_url_query($query);
 
 			#2 设置参数
 			$param = static::$func($param);
@@ -124,6 +132,13 @@ class MicroService {
 	protected static function test(array $param)
 	{
 		return $param;
+	}
+
+
+
+	public function __call($func, $arguments)
+	{
+		return @$this->handle($func, $arguments[0], $arguments[1], $arguments[2]);
 	}
 
 }

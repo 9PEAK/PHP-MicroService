@@ -3,17 +3,15 @@ namespace SD\Api\Integration;
 
 class SDProduct extends \SD\Api\MicroService {
 
-	const API_URL = 'http://sd.9peak.net/';
-	const API_TIME_ZONE = '';
-	const API_TIME_FORMAT = '';
+
+	use Common;
 
 
-	protected static function searchProduct (array &$param)
+	protected static function searchProduct (array $param, $query=null, $method='post')
 	{
 		return [
 
 		];
 	}
-
 
 }
