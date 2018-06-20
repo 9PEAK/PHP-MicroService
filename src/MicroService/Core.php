@@ -3,8 +3,8 @@ namespace Peak\MicroService;
 
 class Core {
 
-	protected static $http;
 	protected static $auth;
+	protected static $http;
 
 
 	/**
@@ -98,13 +98,13 @@ class Core {
 			$url = static::$api_url.$func.self::set_url_query($query);
 
 			#2 设置参数
-			self::$req_param = array_merge(self::$req_param, static::$func($param));
+			$param = array_merge(self::$req_param, static::$func($param));
 
 			#3 设置验证数据
 			$http->setHeaders(self::attempt());
 
 			#4 发送请求
-			$http->$method($url, self::$req_param);
+			$http->$method($url, $param);
 
 			#5 获取返回值
 
@@ -112,7 +112,7 @@ class Core {
 				throw new \Exception(json_encode([
 					'url' => $url,
 					'method' => $method,
-					'param' => self::$req_param,
+					'param' => $param,
 					'error' => 'Error: ' . $http->errorCode . ': ' . $http->errorMessage,
 					'response' => is_string($http->response) ? json_decode($http->response, 1) : (array)$http->response
 				]));
