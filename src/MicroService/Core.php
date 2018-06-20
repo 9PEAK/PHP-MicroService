@@ -1,7 +1,7 @@
 <?php
-namespace SD\Api;
+namespace Peak\MicroService;
 
-class MicroService {
+class Core {
 
 	protected static $http;
 	protected static $auth;

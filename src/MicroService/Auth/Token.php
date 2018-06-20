@@ -1,5 +1,5 @@
 <?php
-namespace SD\Api\Auth;
+namespace Peak\MicroService\Auth;
 
 use Peak\TimeToken;
 

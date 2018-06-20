@@ -1,7 +1,7 @@
 <?php
-namespace SD\Api\Integration;
+namespace Peak\MicroService\Integration;
 
-trait Common {
+trait Base {
 
 	private static
 		$api_url,

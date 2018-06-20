@@ -1,10 +1,10 @@
 <?php
-namespace SD\Api\Integration;
+namespace Peak\MicroService\Integration;
 
-class SDProduct extends \SD\Api\MicroService {
+class SDProduct extends \Peak\MicroService\Core {
 
 
-	use Common;
+	use Base;
 
 
 	protected static function searchProduct (array $param, $query=null, $method='post')

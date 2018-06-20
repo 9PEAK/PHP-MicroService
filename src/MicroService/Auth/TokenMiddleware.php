@@ -1,6 +1,8 @@
 <?php
-namespace SD\Api\Auth;
-
+namespace Peak\MicroService\Auth;
+/**
+ * Middleware for Laravel&Lumen
+ * */
 abstract class TokenMiddleware {
 
 

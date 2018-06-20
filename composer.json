@@ -1,8 +1,8 @@
 {
-    "name": "eastown/sd-api",
-    "description": "Api conponent for Soffee Design .",
+    "name": "9peak/micro-service",
+    "description": "Mirco Service Framework for PHP Application.",
     "license": "MIT",
-    "keywords": ["soffee design"],
+    "keywords": ["9peak", "微服务", "micro service"],
     "authors": [
         {
             "name": "Kane Young / 杨祥凯",
@@ -17,7 +17,7 @@
     "require-dev": {},
     "autoload": {
         "psr-4": {
-            "SD\\": "src"
+            "Peak\\": "src"
         }
     }
 }
