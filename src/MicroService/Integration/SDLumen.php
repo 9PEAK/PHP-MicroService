@@ -12,4 +12,13 @@ class SDLumen extends \Peak\MicroService\Core {
 		];
 	}
 
+
+	// 物流方式
+	protected static function transportType (array &$param)
+	{
+		return [
+			'store_name' => $param['store_name']
+		];
+	}
+
 }
