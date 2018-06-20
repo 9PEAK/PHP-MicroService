@@ -1,7 +1,7 @@
 <?php
 namespace Peak\MicroService\Integration;
 
-class SDProduct extends \Peak\MicroService\Core {
+class SDLumen extends \Peak\MicroService\Core {
 
 	use Base;
 
