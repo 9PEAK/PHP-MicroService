@@ -81,12 +81,14 @@ class Core {
 	}
 
 
+	protected static $req_param = [];
+
 	/**
 	 * 跨应用标准化请求业务
 	 * @param $func method name of request
 	 * @param $param param of request
 	 * */
-	final public function handle ($func, array $param, $query=null, $method='post')
+	final public function request ($func, array $param, $query=null, $method='post')
 	{
 		$http =& self::$http;
 
@@ -96,13 +98,13 @@ class Core {
 			$url = static::$api_url.$func.self::set_url_query($query);
 
 			#2 设置参数
-			$param = static::$func($param);
+			self::$req_param = array_merge(self::$req_param, static::$func($param));
 
 			#3 设置验证数据
 			$http->setHeaders(self::attempt());
 
 			#4 发送请求
-			$http->$method($url, $param);
+			$http->$method($url, self::$req_param);
 
 			#5 获取返回值
 
@@ -110,7 +112,7 @@ class Core {
 				throw new \Exception(json_encode([
 					'url' => $url,
 					'method' => $method,
-					'param' => $param,
+					'param' => self::$req_param,
 					'error' => 'Error: ' . $http->errorCode . ': ' . $http->errorMessage,
 					'response' => is_string($http->response) ? json_decode($http->response, 1) : (array)$http->response
 				]));

@@ -5,6 +5,15 @@ class SDLumen extends \Peak\MicroService\Core {
 
 	use Base;
 
+	function __construct(array $auth, array $config = [], $apiKey)
+	{
+		parent::__construct($auth, $config);
+
+		self::$req_param['apikey'] = $apiKey;
+	}
+
+
+
 	protected static function searchProduct (array &$param)
 	{
 		return [
