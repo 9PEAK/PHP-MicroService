@@ -122,7 +122,7 @@ class Core {
 				return self::response('dat');
 			}
 
-			throw new \Exception(self::response());
+			throw new \Exception(json_encode(self::$http->response));
 
 		} catch ( \Exception $e) {
 			echo 'ERROR: '.$e->getMessage();
