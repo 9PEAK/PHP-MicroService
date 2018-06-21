@@ -1,5 +1,5 @@
 {
-    "name": "9peak/micro-service",
+    "name": "9peak/sd-integration",
     "description": "Mirco Service Framework for PHP Application.",
     "license": "MIT",
     "keywords": ["9peak", "微服务", "micro service"],
@@ -11,8 +11,7 @@
     ],
     "require": {
         "php": ">= 5.4",
-        "9peak/php-token": "dev-master",
-        "php-curl-class/php-curl-class": "^7.3"
+        "9peak/micro-service": "dev-master"
     },
     "autoload": {
         "psr-4": {
