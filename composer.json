@@ -2,7 +2,7 @@
     "name": "9peak/sd-integration",
     "description": "Mirco Service Framework for PHP Application.",
     "license": "MIT",
-    "keywords": ["9peak", "微服务", "micro service"],
+    "keywords": ["9peak", "微服务", "micro service", "soffee design", "eastown"],
     "authors": [
         {
             "name": "Eastown IT",
@@ -17,5 +17,6 @@
         "psr-4": {
             "Peak\\": "src"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
