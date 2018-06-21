@@ -5,7 +5,7 @@
     "keywords": ["9peak", "微服务", "micro service"],
     "authors": [
         {
-            "name": "Kane Young / 杨祥凯",
+            "name": "Eastown IT",
             "email": "52653784@qq.com"
         }
     ],
@@ -14,7 +14,6 @@
         "9peak/php-token": "dev-master",
         "php-curl-class/php-curl-class": "^7.3"
     },
-    "require-dev": {},
     "autoload": {
         "psr-4": {
             "Peak\\": "src"
