@@ -32,4 +32,18 @@ class TWUsa extends \Peak\MicroService\Core {
 	}
 
 
+
+	// 新增货品/sku
+	public function addSku (array &$param)
+	{
+		return [
+			'product_sn' => $param['product_sn'],
+			'product_name_en' => $param['product_name_en'],
+			'product_worth' => $param['product_worth'],
+			'declaration_weight' => $param['declaration_weight'],
+			'declaration_volume' => $param['declaration_volume'],
+		];
+	}
+
+
 }
