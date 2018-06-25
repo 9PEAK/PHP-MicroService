@@ -46,6 +46,8 @@ class Core {
 	}
 
 
+	public $debug;
+
 	/**
 	 * 4 获取请求的数据
 	 * @param $key 支持链式调用 默认null，整个请求结果
@@ -53,9 +55,10 @@ class Core {
 	 * */
 	private function response ($key=null)
 	{
-		$res = self::$http->response;
+//		$res = is_string($res) ? json_decode($res, 1) : (array)$res ;
+		$res = json_decode(json_encode(self::$http->response), 1);
 		if ($key) {
-			$res = is_string($res) ? json_decode($res, 1) : (array)$res ;
+
 			$key = explode('.', $key);
 			foreach ($key as $k) {
 				$res = @$res[$k];
@@ -114,7 +117,7 @@ class Core {
 					'method' => $method,
 					'param' => $param,
 					'error' => 'Error: ' . $http->errorCode . ': ' . $http->errorMessage,
-					'response' => is_string($http->response) ? json_decode($http->response, 1) : (array)$http->response
+					'response' => self::response()
 				]));
 			}
 
@@ -125,7 +128,7 @@ class Core {
 			throw new \Exception(json_encode(self::$http->response));
 
 		} catch ( \Exception $e) {
-			echo 'ERROR: '.$e->getMessage();
+			$this->debug = json_decode($e->getMessage(), 1);
 		}
 
 	}
