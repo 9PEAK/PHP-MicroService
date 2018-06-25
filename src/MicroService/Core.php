@@ -58,7 +58,6 @@ class Core {
 //		$res = is_string($res) ? json_decode($res, 1) : (array)$res ;
 		$res = json_decode(json_encode(self::$http->response), 1);
 		if ($key) {
-
 			$key = explode('.', $key);
 			foreach ($key as $k) {
 				$res = @$res[$k];
