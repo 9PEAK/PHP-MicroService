@@ -90,19 +90,14 @@ class Core {
 			Api::reset();
 
 			#1 设置url
-			$url = function () use (&$func, &$query) {
-				Api::url(static::$api_url);
-				Api::url($func);
-				return Api::url(self::set_url_query($query));
-			};
+			Api::url(static::$api_url);
+			Api::url($func);
+			$url = Api::url(self::set_url_query($query));
 
-//			$url = static::$api_url.$func.self::set_url_query($query);
 
 			#2 设置参数
-			$param = function () use (&$func, &$param) {
-				Api::param(self::$req_param,0);
-				return Api::param(static::$func($param),0);
-			};
+			Api::param(self::$req_param,0);
+			$param = Api::param(static::$func($param),0);
 
 			#3 设置验证数据
 			$http->setHeaders(self::attempt());
@@ -134,7 +129,6 @@ class Core {
 		}
 
 	}
-
 
 
 	protected static function test(array $param)
