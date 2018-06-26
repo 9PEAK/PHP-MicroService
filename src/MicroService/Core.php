@@ -1,6 +1,8 @@
 <?php
 namespace Peak\MicroService;
 
+use \Peak\Tool\Api;
+
 class Core {
 
 	protected static $auth;
@@ -55,15 +57,7 @@ class Core {
 	 * */
 	private function response ($key=null)
 	{
-//		$res = is_string($res) ? json_decode($res, 1) : (array)$res ;
-		$res = json_decode(json_encode(self::$http->response), 1);
-		if ($key) {
-			$key = explode('.', $key);
-			foreach ($key as $k) {
-				$res = @$res[$k];
-			}
-		}
-		return $res;
+		return \Peak\Tool\Arr::array_key_chain(json_decode(json_encode(self::$http->response), 1), $key, '.');
 	}
 
 
@@ -95,12 +89,22 @@ class Core {
 		$http =& self::$http;
 
 		try {
+			Api::reset();
 
 			#1 设置url
-			$url = static::$api_url.$func.self::set_url_query($query);
+			$url = function () use (&$func, &$query) {
+				Api::url(static::$api_url);
+				Api::url($func);
+				return Api::url(self::set_url_query($query));
+			};
+
+//			$url = static::$api_url.$func.self::set_url_query($query);
 
 			#2 设置参数
-			$param = array_merge(self::$req_param, static::$func($param));
+			$param = function () use (&$func, &$param) {
+				Api::param(self::$req_param,0);
+				return Api::param(static::$func($param),0);
+			};
 
 			#3 设置验证数据
 			$http->setHeaders(self::attempt());
@@ -109,7 +113,6 @@ class Core {
 			$http->$method($url, $param);
 
 			#5 获取返回值
-
 			if ($http->error) {
 				throw new \Exception(json_encode([
 					'url' => $url,
