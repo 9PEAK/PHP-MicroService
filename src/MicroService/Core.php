@@ -23,7 +23,6 @@ class Core {
 		}
 
 		self::$http = new \Curl\Curl();
-
 	}
 
 
@@ -47,8 +46,7 @@ class Core {
 		return date($form, $val);
 	}
 
-
-	public $debug;
+	public $result;
 
 	/**
 	 * 4 获取请求的数据
@@ -84,7 +82,7 @@ class Core {
 	 * @param $func method name of request
 	 * @param $param param of request
 	 * */
-	final public function request ($func, array $param, $query=null, $method='post')
+	final public function request ($func, array $param, $query=null, $method='post'):bool
 	{
 		$http =& self::$http;
 
@@ -124,13 +122,15 @@ class Core {
 			}
 
 			if (self::response('res')==1) {
-				return self::response('dat');
+				$this->result = self::response('dat');
+				return true;
 			}
 
 			throw new \Exception(json_encode(self::$http->response));
 
 		} catch ( \Exception $e) {
-			$this->debug = json_decode($e->getMessage(), 1);
+			$this->result = json_decode($e->getMessage(), 1);
+			return false;
 		}
 
 	}
