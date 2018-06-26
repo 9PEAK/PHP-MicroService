@@ -136,6 +136,7 @@ class Core {
 	}
 
 
+
 	protected static function test(array $param)
 	{
 		return $param;
