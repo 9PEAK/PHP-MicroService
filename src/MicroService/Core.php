@@ -112,7 +112,7 @@ class Core {
 					'method' => $method,
 					'param' => $param,
 					'error' => 'Error: ' . $http->errorCode . ': ' . $http->errorMessage,
-					'response' => self::response()
+					'response' => $http->response
 				]));
 			}
 
