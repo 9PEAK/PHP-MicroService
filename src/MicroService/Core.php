@@ -91,7 +91,9 @@ class Core {
 
 			#1 设置url
 			$url = Api::url(
-				static::$api_url.(@static::$$func ?: $func).self::set_url_query($query)
+				static::$api_url.
+				(property_exists(static::class, $func) ? static::$$func : $func).
+				self::set_url_query($query)
 			);
 
 			#2 设置参数
