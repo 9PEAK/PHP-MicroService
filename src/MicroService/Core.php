@@ -138,7 +138,6 @@ class Core {
 	}
 
 
-
 	public function __call($func, $arguments)
 	{
 		return @$this->handle($func, $arguments[0], $arguments[1], $arguments[2]);
