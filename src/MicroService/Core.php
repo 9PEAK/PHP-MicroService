@@ -90,15 +90,12 @@ class Core {
 			Api::reset();
 
 			#1 设置url
-			$url = Api::url(static::$api_url.$func.self::set_url_query($query));
-//			Api::url($func);
-//			$url = Api::url();
-
+			$url = Api::url(
+				static::$api_url.(@static::$$func ?: $func).self::set_url_query($query)
+			);
 
 			#2 设置参数
 			Api::param(self::$req_param,0);
-			$func = explode('/', $func);
-			$func = $func[count($func)-1];
 			$param = Api::param(static::$func($param),0);
 
 			#3 设置验证数据
