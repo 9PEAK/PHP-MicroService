@@ -3,105 +3,53 @@ namespace Peak\MicroService;
 
 use \Peak\Tool\Api;
 
-class Core {
+abstract class Core {
 
-	protected static $auth;
+	protected $auth;
 	protected static $http;
-
 
 	/**
 	 * @param $auth array , key is the class name of authenticate method, val is certificate
 	 * */
-	function __construct(array $auth, array $config=[])
+	function __construct(Auth $auth)
 	{
-		self::$auth = $auth;
-
-		foreach ($config as $key=>$val) {
-			if (property_exists(static::class, $key) ) {
-				static::$$key = $val;
-			}
-		}
-
+		$this->auth = $auth;
 		self::$http = new \Curl\Curl();
 	}
 
 
-	/**
-	 * 生成提交验证
-	 * */
-	private static function attempt ()
-	{
-		return (__NAMESPACE__.'\Auth\\'.ucfirst(key(self::$auth)))::attempt(current(self::$auth));
-	}
-
-
-	/**
-	 * 设置设置时间格式
-	 * */
-	private static function set_time ($val)
-	{
-		if ( !is_numeric($val)) {
-			$val = strtotime($val);
-		}
-		return date($form, $val);
-	}
 
 	public $result;
 
 	/**
-	 * 4 获取请求的数据
-	 * @param $key 支持链式调用 默认null，整个请求结果
-	 * @return mixed array | string
+	 * 设置URL查询参数
 	 * */
-	private function response ($key=null)
+	private static function set_url_query ($param=null)
 	{
-		return \Peak\Tool\Arr::array_key_chain(json_decode(json_encode(self::$http->response), 1), $key, '.');
+		if (!$param) return '';
+		return is_array($param) ? \Peak\Plugin\Arr::joinKeyValToString($param) : trim($param);
 	}
 
 
-	private static function set_url_query ($query)
-	{
-		if (!$query) return '';
-
-		if (is_array($query)) {
-			foreach ($query as $k=>&$v) {
-				$v = $k.'='.$v;
-			}
-			return '?'.join('&', $query);
-		} else {
-			$query = trim($query);
-			return strpos($query, '?')===0 ? $query : '?'.$query;
-		}
-	}
-
-
-	protected static $req_param = [];
 
 	/**
 	 * 跨应用标准化请求业务
 	 * @param $func method name of request
 	 * @param $param param of request
 	 * */
-	final public function request ($func, array $param, $query=null, $method='post'):bool
+	protected function request ($route, array $param, $query=null, $method='post'):bool
 	{
 		$http =& self::$http;
 
 		try {
-			Api::reset();
-
 			#1 设置url
-			$url = Api::url(
-				static::$api_url.
-				(property_exists(static::class, $func) ? static::$$func : $func).
-				self::set_url_query($query)
-			);
+			$url = static::API_URL.$route;
+			$url.= '?'.self::set_url_query($query);
 
 			#2 设置参数
-			Api::param(self::$req_param,0);
-			$param = Api::param(static::$func($param),0);
 
 			#3 设置验证数据
-			$http->setHeaders(self::attempt());
+			$http->setHeaders($this->auth->attempt());
 
 			#4 发送请求
 			$http->$method($url, $param);
@@ -117,30 +65,49 @@ class Core {
 				]));
 			}
 
-			if (self::response('res')==1) {
-				$this->result = self::response('dat');
-				return true;
-			}
-
-			throw new \Exception(json_encode(self::$http->response));
+			return true;
 
 		} catch ( \Exception $e) {
-			$this->result = json_decode($e->getMessage(), 1);
+			$this->result = $http->response;
 			return false;
 		}
 
 	}
 
 
-	protected static function test(array $param)
+
+	/**
+	 * 4 获取请求的数据
+	 * @param $key 支持链式调用 默认null，整个请求结果
+	 * @return mixed array | string
+	 * */
+	protected function response ($key=null)
 	{
-		return $param;
+
+		return \Peak\Tool\Arr::array_key_chain(
+			json_decode(json_encode(self::$http->response), 1),
+			$key, '.'
+		);
 	}
 
 
+
+	public function test ()
+	{
+		$res = self::request('test', [], [], 'post');
+
+		if (self::response('res')==1) {
+			$this->result = self::response('dat');
+			return true;
+		}
+
+		throw new \Exception(json_encode(self::$http->response));
+	}
+
+/*
 	public function __call($func, $arguments)
 	{
 		return @$this->handle($func, $arguments[0], $arguments[1], $arguments[2]);
-	}
+	}*/
 
 }

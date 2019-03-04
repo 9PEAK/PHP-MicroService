@@ -1,37 +1,65 @@
 <?php
 namespace Peak\MicroService\Auth;
 
-use Peak\TimeToken;
+class Token extends \Peak\MicroService\Auth
+{
 
-trait Token {
+	private $config = [
+		'id' => null,
+		'key' => null,
+		'exp' => null,
+	];
 
-	static function attempt ($credentials)
+	function __construct($config)
 	{
-		$obj = new TimeToken();
+		parent::__construct($config);
+	}
+
+
+	/**
+	 * sign the credential config param
+	 * @param id
+	 * @param key
+	 * @param $str string random string to make sign token
+	 * */
+	private static function sign ($id, $key, $time)
+	{
+		return md5([
+			'app_id' => $id,
+			'app_key' => $key,
+			'timestamp' => $time,
+		]);
+	}
+
+
+
+	public function attempt ()
+	{
 		return [
-			'id' => $credentials['id'],
-			'token' => $obj->sign([
-				'app_id' => $credentials['id'],
-				'app_key' => $credentials['key'],
-			]),
-			'timestamp' => $obj->time()
+			'id' => $this->config['id'],
+			'token' => self::sign($this->config['id'], $this->config['key'], time()),
+			'timestamp' => time()
 		];
 	}
 
 
 
-	static function login ($credentials, $token, $exp)
+	public function check ($credential):bool
 	{
-		$obj = new TimeToken();
-		return $obj->validate(
-			[
-				'app_id' => $credentials['id'],
-				'app_key' => $credentials['key'],
-				'timestamp' => $credentials['timestamp'],
-			],
-			$token,
-			$exp
-		);
+		if ($credential['timestamps']+$this->config['exp']<time()) {
+			return $this->debug('请求超时。', -1);
+		}
+
+		if ($credential['id']!=$this->config['id']) {
+			return $this->debug('appid不存在。', -2);
+		}
+
+		if ($credential['token']!=$this->sign($credential['id'], $this->config['key'], $credential['timestamp'])) {
+			return $this->debug('签名错误。', -3);
+		}
+
+		return true;
+
 	}
 
 }
