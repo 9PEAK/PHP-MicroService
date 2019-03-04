@@ -24,7 +24,7 @@ abstract class Core {
 	/**
 	 * 设置URL查询参数
 	 * */
-	private static function set_url_query ($param=null)
+	private static function url_query ($param=null)
 	{
 		if (!$param) return '';
 		return is_array($param) ? \Peak\Plugin\Arr::joinKeyValToString($param) : trim($param);
@@ -34,27 +34,22 @@ abstract class Core {
 
 	/**
 	 * 跨应用标准化请求业务
-	 * @param $func method name of request
-	 * @param $param param of request
+	 * @param $url
+	 * @param $param
+	 * @param $method
 	 * */
-	protected function request ($route, array $param, $query=null, $method='post'):bool
+	final protected function request ($url, array $param, $method='post'):bool
 	{
 		$http =& self::$http;
 
 		try {
-			#1 设置url
-			$url = static::API_URL.$route;
-			$url.= '?'.self::set_url_query($query);
-
-			#2 设置参数
-
-			#3 设置验证数据
+			#1 设置验证数据
 			$http->setHeaders($this->auth->attempt());
 
-			#4 发送请求
+			#2 发送请求
 			$http->$method($url, $param);
 
-			#5 获取返回值
+			#3 获取返回值
 			if ($http->error) {
 				throw new \Exception(json_encode([
 					'url' => $url,
@@ -64,26 +59,22 @@ abstract class Core {
 					'response' => $http->response
 				]));
 			}
-
 			return true;
 
 		} catch ( \Exception $e) {
 			$this->result = $http->response;
 			return false;
 		}
-
 	}
 
 
-
 	/**
-	 * 4 获取请求的数据
+	 * 获取请求的数据
 	 * @param $key 支持链式调用 默认null，整个请求结果
 	 * @return mixed array | string
 	 * */
-	protected function response ($key=null)
+	final protected function response ($key=null)
 	{
-
 		return \Peak\Tool\Arr::array_key_chain(
 			json_decode(json_encode(self::$http->response), 1),
 			$key, '.'
@@ -91,23 +82,7 @@ abstract class Core {
 	}
 
 
+	abstract protected function handle($url, $param, $method);
 
-	public function test ()
-	{
-		$res = self::request('test', [], [], 'post');
-
-		if (self::response('res')==1) {
-			$this->result = self::response('dat');
-			return true;
-		}
-
-		throw new \Exception(json_encode(self::$http->response));
-	}
-
-/*
-	public function __call($func, $arguments)
-	{
-		return @$this->handle($func, $arguments[0], $arguments[1], $arguments[2]);
-	}*/
 
 }
