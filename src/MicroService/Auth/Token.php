@@ -10,10 +10,10 @@ class Token extends \Peak\MicroService\Auth
 		'exp' => null,
 	];
 
-	function __construct($config)
-	{
-		parent::__construct($config);
-	}
+//	function __construct($config)
+//	{
+//		parent::__construct($config);
+//	}
 
 
 	/**
@@ -24,11 +24,13 @@ class Token extends \Peak\MicroService\Auth
 	 * */
 	private static function sign ($id, $key, $time)
 	{
-		return md5([
-			'app_id' => $id,
-			'app_key' => $key,
-			'timestamp' => $time,
-		]);
+		return md5(
+			\Peak\Plugin\Arr::joinKeyValToString([
+				'app_id' => $id,
+				'app_key' => $key,
+				'timestamp' => $time,
+			])
+		);
 	}
 
 

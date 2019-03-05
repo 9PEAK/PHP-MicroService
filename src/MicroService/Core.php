@@ -6,7 +6,7 @@ use \Peak\Tool\Api;
 abstract class Core {
 
 	protected $auth;
-	protected static $http;
+	private static $http;
 
 	/**
 	 * @param $auth array , key is the class name of authenticate method, val is certificate
@@ -59,30 +59,33 @@ abstract class Core {
 					'response' => $http->response
 				]));
 			}
+			$this->result = $http->response;
 			return true;
 
 		} catch ( \Exception $e) {
-			$this->result = $http->response;
+			$this->result = json_decode($e->getMessage());
 			return false;
 		}
 	}
 
 
 	/**
-	 * 获取请求的数据
-	 * @param $key 支持链式调用 默认null，整个请求结果
-	 * @return mixed array | string
+	 * 获取响应返回值
+	 * @return mixed array,string,object
 	 * */
-	final protected function response ($key=null)
+	final protected function response ()
 	{
-		return \Peak\Tool\Arr::array_key_chain(
-			json_decode(json_encode(self::$http->response), 1),
-			$key, '.'
-		);
+		return self::$http->response;
 	}
 
-
-	abstract protected function handle($url, $param, $method);
+	/**
+	 * 处理请求和响应的返回值
+	 * @param $url
+	 * @param $param
+	 * @param $method
+	 * @return boolean
+	 * */
+	abstract protected function handle($url, $param, $method):bool;
 
 
 }

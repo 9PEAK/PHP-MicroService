@@ -4,30 +4,36 @@ namespace Peak\MicroService\Integration;
 class Test extends \Peak\MicroService\Core
 {
 
-	const API_URL = 'http://abc.com/';
-
-
-	protected function handle($url, $param, $method)
+	/**
+	 * 请求&返回值处理
+	 * */
+	protected function handle($url, $param, $method):bool
 	{
 		if ($this->request($url, $param, $method)) {
-			if (self::response('res')==1) {
-				$this->result = self::response('dat');
-				return true;
-			} else {
-				$this->result = self::$http->response;
+
+			if (is_string($this->result) ) {
+				$this->result = self::response();
+				return false;
 			}
+
+			if (self::response()->res==1) {
+				$this->result = self::response()->dat;
+				return true;
+			}
+			$this->result = self::response();
 		}
 
 		return false;
 	}
 
 
+	const API_URL = 'http://abc.com/ms/';
 
-	public function test($param):bool
+	public function test($id)
 	{
 		return $this->handle(
-			self::API_URL.'sfsfsdf',
-			$param,
+			self::API_URL.'product/deail',
+			['id' => $id],
 			'post'
 		);
 	}
