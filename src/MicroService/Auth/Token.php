@@ -10,11 +10,6 @@ class Token extends \Peak\MicroService\Auth
 		'exp' => null,
 	];
 
-//	function __construct($config)
-//	{
-//		parent::__construct($config);
-//	}
-
 
 	/**
 	 * sign the credential config param

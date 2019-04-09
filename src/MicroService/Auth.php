@@ -1,8 +1,6 @@
 <?php
 namespace Peak\MicroService;
 
-//use Peak\Plugin\;
-
 abstract class Auth {
 
 	private $config;
@@ -12,8 +10,7 @@ abstract class Auth {
 		$this->config = $config;
 	}
 
-
-	use \Peak\Plugin\Debuger;
+	use \Peak\Plugin\Debuger\Standard;
 
 	/**
 	 * set a new credentials with config

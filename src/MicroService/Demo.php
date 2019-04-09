@@ -4,7 +4,7 @@ namespace Peak\MicroService;
 include '../../vendor/autoload.php';
 
 $api = new \Peak\MicroService\Integration\Test(
-	new \Peak\MicroService\Auth\Token([
+	new Auth\Token([
 		'id' => 'sd-product',
 		'key' => 'U3VzYW4gZHJlc3MgbGlrZSBhIGNoaWxkLg',
 		'exp' => 6,
@@ -12,5 +12,7 @@ $api = new \Peak\MicroService\Integration\Test(
 );
 
 if ($api->test(1)) {
-	print_r($api->result);
+	echo 666,'<br>';
 }
+
+print_r($api->result);

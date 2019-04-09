@@ -3,7 +3,8 @@ namespace Peak\MicroService;
 
 use \Peak\Tool\Api;
 
-abstract class Core {
+abstract class Core
+{
 
 	protected $auth;
 	private static $http;
@@ -17,6 +18,11 @@ abstract class Core {
 		self::$http = new \Curl\Curl();
 	}
 
+
+	public function attempt ()
+	{
+		return $this->auth->check(self::response(true));
+	}
 
 
 	public $result;
@@ -71,10 +77,18 @@ abstract class Core {
 
 	/**
 	 * 获取响应返回值
+	 * @param $header bool true, return body data;false, return header data.
 	 * @return mixed array,string,object
 	 * */
-	final protected function response ()
+	final protected function response ($header=false)
 	{
+		if ($header) {
+			$header = [];
+			foreach (self::$http->responseHeaders as $key=>$val) {
+				$header[$key] = $val;
+			}
+			return $header;
+		}
 		return self::$http->response;
 	}
 
