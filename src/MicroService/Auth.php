@@ -3,7 +3,7 @@ namespace Peak\MicroService;
 
 abstract class Auth {
 
-	private $config;
+	protected $config;
 
 	function __construct($config)
 	{
