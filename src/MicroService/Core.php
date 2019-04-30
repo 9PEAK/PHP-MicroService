@@ -39,10 +39,11 @@ abstract class Core
 
 
 	/**
-	 * 跨应用标准化请求业务
-	 * @param $url
-	 * @param $param
-	 * @param $method
+	 * 请求（标准化）
+	 * @param $url string
+	 * @param $param array
+	 * @param $method string get或post(默认)
+	 * @return bool
 	 * */
 	final protected function request ($url, array $param, $method='post'):bool
 	{
@@ -94,12 +95,29 @@ abstract class Core
 
 	/**
 	 * 处理请求和响应的返回值
-	 * @param $url
-	 * @param $param
-	 * @param $method
+	 * @param $url string
+	 * @param $param array 数组
+	 * @param $method string post或get
 	 * @return boolean
 	 * */
-	abstract protected function handle($url, $param, $method):bool;
+	protected function handle($url, array $param=[], $method='post'):bool
+	{
+		if ($this->request($url, $param, $method)) {
+
+			if (is_string($this->result) ) {
+				$this->result = self::response();
+				return false;
+			}
+
+			if (self::response()->res==1) {
+				$this->result = self::response()->dat;
+				return true;
+			}
+			$this->result = self::response();
+		}
+
+		return false;
+	}
 
 
 }
