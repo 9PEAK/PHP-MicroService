@@ -4,6 +4,8 @@ This is the Chinese introduction for this Repo. [Click to read the English intro
 
 这是一个简洁的微服务组件（简称MS），封装了请求、校验、返回值预处理等完整的通信流程，可作为项目中的基础服务组件，并根据项目需要集成、拓展。<br>
 下图是微服务流程中，应用间通信的生命周期，本组件封装了图中“实线”部分的流程，并允许对已封装的部分进行复写、自定义；接下来，将基于从安装、初始化、方法编写的角度说明组件的使用。
+https://github.com/9PEAK/PHP-MicroService/blob/attachment/work-float.png?raw=true
+![Work Flow](https://github.com/9PEAK/PHP-MicroService/blob/attachment/work-float.png?raw=true)
 
 #### 安装
 以图中X、UserCenter应用为例，假设我们在X应用上使用组件。
