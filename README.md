@@ -1,4 +1,4 @@
-This is the Chinese Introduction for this Repo. [Click to read the English version.](https://github.com/9PEAK/PHP-MicroService/blob/master/README-en.md)
+This is the Chinese introduction for this Repo. [Click to read the English introduction.](https://github.com/9PEAK/PHP-MicroService/blob/master/README-en.md)
 
 # PHP-MicroService 2.3
 
