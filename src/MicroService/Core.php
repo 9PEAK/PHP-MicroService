@@ -94,7 +94,7 @@ abstract class Core
 	}
 
 	/**
-	 * 处理请求和响应的返回值
+	 * 请求、响应、异常处理基础业务
 	 * @param $url string
 	 * @param $param array 数组
 	 * @param $method string post或get
