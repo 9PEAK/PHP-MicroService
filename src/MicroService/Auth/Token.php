@@ -3,7 +3,7 @@ namespace Peak\MicroService\Auth;
 
 use \Peak\MicroService\Auth as Raw;
 
-class Token extends \Peak\MicroService\Auth
+class Token extends Raw
 {
 
 	protected $config = [
