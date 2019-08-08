@@ -5,12 +5,11 @@ namespace Peak\MicroService\Auth;
  * */
 trait TokenMiddleware {
 
-//	use \Peak\Plugin\Debuger;
-
 	protected static function check (array $credetial, array $config)
 	{
 		$auth = new Token($config);
-		return $auth->check($credetial) ?: self::debug ($auth->debug()->getMessage(), $auth->debug()->getCode());
+		return $auth->check($credetial) ?: $auth->debug();
+
 	}
 
 }

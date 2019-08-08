@@ -10,7 +10,7 @@ abstract class Auth {
 		$this->config = $config;
 	}
 
-	use \Peak\Plugin\Debuger\Standard;
+	use \Peak\Plugin\Debuger\Base;
 
 	/**
 	 * set a new credentials with config
